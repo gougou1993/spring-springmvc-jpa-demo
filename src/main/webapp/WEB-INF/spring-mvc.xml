@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!--conversion-service=""注册自定义转换器到SpirngMVC上下文中
+        自动注册RequestMappingHandlerMapping
+        RequestMappingHandlerAdapter
+        ExceptionHandlerExceptionResolver三个bean
+        还支持Conversion-service对表单参数进行类型转换
+        支持使用@NumberFormat annotation
+        @DateTimeFormat注解完成数据类型的格式化
+        支持使用@Valid注解对JavaBean实例进行JSR303验证
+        支持使用@RequestBody @ResponseBody注解
+        -->
+	<mvc:annotation-driven />
+	
+	<!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--fileupload-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="maxUploadSize" value="10000000"></property>
+    </bean>
+	<context:component-scan base-package="com.zhong">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+</beans>
